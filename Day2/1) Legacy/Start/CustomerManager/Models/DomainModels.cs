@@ -36,3 +36,14 @@ public class UpdateCustomerRequest
     public string? Name { get; set; }
     public string? Email { get; set; }
 }
+
+public class AgentChatRequest
+{
+    public string? Prompt { get; set; }
+}
+
+public class AgentChatResponse
+{
+    public string? Response { get; set; }
+    public string? Model { get; set; }
+}
