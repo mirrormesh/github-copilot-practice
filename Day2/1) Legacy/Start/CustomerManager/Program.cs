@@ -1,4 +1,5 @@
 using CustomerManager.Models;
+using CustomerManager.Repositories;
 using CustomerManager.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Services.AddSingleton<ICustomerRepository, InMemoryCustomerRepository>();
 builder.Services.AddSingleton<ICustomerService, CustomerService>();
 builder.Services.AddSingleton<IGitHubModelsAgentService, GitHubModelsAgentService>();
 

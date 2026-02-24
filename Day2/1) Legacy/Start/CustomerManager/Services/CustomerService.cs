@@ -1,4 +1,5 @@
 using CustomerManager.Models;
+using CustomerManager.Repositories;
 
 namespace CustomerManager.Services;
 
@@ -14,16 +15,16 @@ public interface ICustomerService
 
 public class CustomerService : ICustomerService
 {
-    private readonly List<Customer> _customers =
-    [
-        new Customer { Id = 1, Name = "John Doe", Email = "john@example.com", CreatedAt = DateTime.Now },
-        new Customer { Id = 2, Name = "Jane Smith", Email = "jane@example.com", CreatedAt = DateTime.Now },
-        new Customer { Id = 3, Name = "Bob Wilson", Email = "bob@example.com", CreatedAt = DateTime.Now }
-    ];
+    private readonly ICustomerRepository _customerRepository;
+
+    public CustomerService(ICustomerRepository customerRepository)
+    {
+        _customerRepository = customerRepository;
+    }
 
     public Customer? GetCustomer(int id)
     {
-        return _customers.FirstOrDefault(c => c.Id == id);
+        return _customerRepository.GetById(id);
     }
 
     public Customer? SearchCustomer(string name)
@@ -33,18 +34,17 @@ public class CustomerService : ICustomerService
             return null;
         }
 
-        return _customers.FirstOrDefault(c => 
-            c.Name != null && c.Name.Contains(name, StringComparison.OrdinalIgnoreCase));
+        return _customerRepository.SearchByName(name);
     }
 
     public List<Customer> GetAllCustomers()
     {
-        return _customers;
+        return _customerRepository.GetAll();
     }
 
     public Customer AddCustomer(string name, string email)
     {
-        var nextId = _customers.Count == 0 ? 1 : _customers.Max(c => c.Id) + 1;
+        var nextId = _customerRepository.GetNextId();
         var customer = new Customer
         {
             Id = nextId,
@@ -53,31 +53,21 @@ public class CustomerService : ICustomerService
             CreatedAt = DateTime.Now
         };
 
-        _customers.Add(customer);
-        return customer;
+        return _customerRepository.Add(customer);
     }
 
     public Customer? UpdateCustomer(int id, string name, string email)
     {
-        var customer = _customers.FirstOrDefault(c => c.Id == id);
-        if (customer == null)
+        return _customerRepository.Update(new Customer
         {
-            return null;
-        }
-
-        customer.Name = name;
-        customer.Email = email;
-        return customer;
+            Id = id,
+            Name = name,
+            Email = email
+        });
     }
 
     public bool DeleteCustomer(int id)
     {
-        var customer = _customers.FirstOrDefault(c => c.Id == id);
-        if (customer == null)
-        {
-            return false;
-        }
-
-        return _customers.Remove(customer);
+        return _customerRepository.Delete(id);
     }
 }

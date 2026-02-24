@@ -1,3 +1,4 @@
+using CustomerManager.Repositories;
 using CustomerManager.Services;
 using Xunit;
 
@@ -8,7 +9,7 @@ public class CustomerServiceTests
     [Fact]
     public void GetAllCustomers_ReturnsSeedCustomers()
     {
-        var service = new CustomerService();
+        var service = new CustomerService(new InMemoryCustomerRepository());
 
         var customers = service.GetAllCustomers();
 
@@ -19,7 +20,7 @@ public class CustomerServiceTests
     [Fact]
     public void AddCustomer_AddsCustomerWithNewId()
     {
-        var service = new CustomerService();
+        var service = new CustomerService(new InMemoryCustomerRepository());
 
         var added = service.AddCustomer("Alice", "alice@example.com");
 
@@ -32,7 +33,7 @@ public class CustomerServiceTests
     [Fact]
     public void UpdateCustomer_ExistingCustomer_UpdatesFields()
     {
-        var service = new CustomerService();
+        var service = new CustomerService(new InMemoryCustomerRepository());
         var added = service.AddCustomer("Before", "before@example.com");
 
         var updated = service.UpdateCustomer(added.Id, "After", "after@example.com");
@@ -45,7 +46,7 @@ public class CustomerServiceTests
     [Fact]
     public void DeleteCustomer_ExistingCustomer_ReturnsTrueAndRemoves()
     {
-        var service = new CustomerService();
+        var service = new CustomerService(new InMemoryCustomerRepository());
         var added = service.AddCustomer("DeleteMe", "delete@example.com");
 
         var deleted = service.DeleteCustomer(added.Id);
@@ -57,7 +58,7 @@ public class CustomerServiceTests
     [Fact]
     public void SearchCustomer_FindsByPartialName_CaseInsensitive()
     {
-        var service = new CustomerService();
+        var service = new CustomerService(new InMemoryCustomerRepository());
         service.AddCustomer("Charlie Brown", "charlie@example.com");
 
         var customer = service.SearchCustomer("charlie");
