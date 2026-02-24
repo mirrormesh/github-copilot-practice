@@ -24,3 +24,15 @@ public class HealthResponse
     public string? Message { get; set; }
     public DateTime Timestamp { get; set; }
 }
+
+public class CreateCustomerRequest
+{
+    public string? Name { get; set; }
+    public string? Email { get; set; }
+}
+
+public class UpdateCustomerRequest
+{
+    public string? Name { get; set; }
+    public string? Email { get; set; }
+}

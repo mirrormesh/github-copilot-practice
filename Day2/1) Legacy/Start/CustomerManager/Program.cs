@@ -15,7 +15,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 builder.Services.AddControllers();
 
-builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddSingleton<ICustomerService, CustomerService>();
 
 var app = builder.Build();
 
