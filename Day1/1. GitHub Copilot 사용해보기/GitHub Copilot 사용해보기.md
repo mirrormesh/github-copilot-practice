@@ -2,7 +2,7 @@
 
 https://code.visualstudio.com/download 에서 Visaul Studio Code를 설치합니다.
 
-![alt text](image.png)
+![alt text](images/image.png)
 
 # 2. Python 설치하기
 
@@ -25,7 +25,7 @@ https://code.visualstudio.com/download 에서 Visaul Studio Code를 설치합니
 
 # 3. GitHub Copilot Extension 설치하기
 
-![alt text](image-1.png)
+![alt text](images/image-1.png)
 
 1. Visual Studio Code를 실행합니다.
 
@@ -39,11 +39,11 @@ https://code.visualstudio.com/download 에서 Visaul Studio Code를 설치합니
 
 # 4. Copilot 사용해보기 
 
-![alt text](image-2.png)
+![alt text](images/image-2.png)
 
 채팅 아이콘(말풍선)을 클릭하여 Copilot 채팅을 열 수 있습니다. 
 
-![alt text](image-3.png)
+![alt text](images/image-3.png)
 
 안녕이라고 입력하고 Copilot이 답변하는 지 확인해봅니다.
 
