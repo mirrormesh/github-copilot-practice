@@ -41,7 +41,42 @@ app.MapGet("/health", () =>
 
 var customers = app.MapGroup("/api/customers");
 
-customers.MapGet("", (ICustomerService customerService) => Results.Ok(customerService.GetAllCustomers()));
+customers.MapGet("", (int? pageNumber, int? pageSize, ICustomerService customerService) =>
+{
+    var effectivePageNumber = pageNumber.GetValueOrDefault(1);
+    var effectivePageSize = pageSize.GetValueOrDefault(10);
+
+    if (effectivePageNumber <= 0)
+    {
+        effectivePageNumber = 1;
+    }
+
+    if (effectivePageSize <= 0)
+    {
+        effectivePageSize = 10;
+    }
+
+    var allCustomers = customerService.GetAllCustomers();
+    var totalItems = allCustomers.Count;
+    var totalPages = totalItems == 0
+        ? 0
+        : (int)Math.Ceiling(totalItems / (double)effectivePageSize);
+
+    var items = allCustomers
+        .Skip((effectivePageNumber - 1) * effectivePageSize)
+        .Take(effectivePageSize)
+        .ToList();
+
+    var response = new PagedResponse<Customer>
+    {
+        Items = items,
+        CurrentPage = effectivePageNumber,
+        TotalPages = totalPages,
+        TotalItems = totalItems
+    };
+
+    return Results.Ok(response);
+});
 
 customers.MapGet("/search", (string name, ICustomerService customerService) =>
 {

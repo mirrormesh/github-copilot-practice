@@ -157,6 +157,32 @@
 
 ---
 
+## 11) 고객 목록 페이징 기능 추가
+
+### 변경 내용
+
+- `GET /api/customers`에 페이징 파라미터 추가
+  - `pageNumber` 기본값: `1`
+  - `pageSize` 기본값: `10`
+- 응답 타입을 `PagedResponse<T>`로 확장
+  - `items`
+  - `currentPage`
+  - `totalPages`
+  - `totalItems`
+
+### 구현 포인트
+
+- 쿼리 미입력/비정상 값(0 이하)인 경우 기본값으로 보정
+- `Skip/Take` 기반 페이지 데이터 반환
+- 전체 건수 기준 총 페이지 수 계산
+
+### 검증 결과
+
+- `GET /api/customers` 기본 호출 정상
+- `GET /api/customers?pageNumber=1&pageSize=2` 호출 시 메타데이터/항목 수 정상
+
+---
+
 ## 참고
 
 - GitHub Models는 GitHub 서비스이지만, 추론 엔드포인트 도메인은 `models.inference.ai.azure.com`을 사용합니다.
